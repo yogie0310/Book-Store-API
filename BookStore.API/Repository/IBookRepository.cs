@@ -8,5 +8,6 @@ namespace BookStore.API.Repository
     {
         Task<List<BookModel>> GetAllBooksAsync();
         Task<BookModel> GetAllBooksByIdAsync(int bookId);
+        Task<int> AddBookAsync(BookModel bookModel);
     }
 }
