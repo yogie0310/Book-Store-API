@@ -1,6 +1,7 @@
 ﻿using BookStore.API.Models;
 using BookStore.API.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,20 @@ namespace BookStore.API.Controllers
         {
             var id = await _bookRepository.AddBookAsync(bookModel);
             return CreatedAtAction(nameof(GetBookById), new { id = id, controller = "books" }, id);// to return 201 instead of 200
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBook([FromBody]BookModel bookModel, [FromRoute]int id)
+        {
+            await _bookRepository.UpdateBookAsync(id, bookModel);
+            return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateBookPatch([FromBody] JsonPatchDocument bookModel, [FromRoute] int id)
+        {
+            await _bookRepository.UpdateBookPatchAsync(id, bookModel);
+            return Ok();
         }
     }
 
