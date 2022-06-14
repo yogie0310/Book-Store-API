@@ -19,7 +19,8 @@ namespace BookStore.API.Repository
         }
         public async Task<List<BookModel>> GetAllBooksAsync()
         {
-            var records = await _context.Books.Select(x=> new BookModel() { 
+            var records = await _context.Books.Select(x => new BookModel()
+            {
                 Id = x.Id,
                 Title = x.Title,
                 Description = x.Description
@@ -49,7 +50,7 @@ namespace BookStore.API.Repository
             };
 
             _context.Books.Add(book);
-             await _context.SaveChangesAsync(); // To hit the database
+            await _context.SaveChangesAsync(); // To hit the database
 
             return book.Id;
         }
@@ -83,6 +84,23 @@ namespace BookStore.API.Repository
                 bookModel.ApplyTo(book);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task DeleteBookAsync(int bookId)
+        {
+            // When we do not have the primary key
+            //var book = _context.Books.Where(x => x.Title == "").FirstOrDefault();
+            //_context.Books.Remove(book);
+            // await _context.SaveChangesAsync(); // To hit the database
+
+            // When primary key is present then no need to hit the database two times
+
+            var book = new Books()
+            {
+                Id = bookId
+            };
+           _context.Books.Remove(book);
+            await _context.SaveChangesAsync(); // To hit the database
         }
     }
 }
