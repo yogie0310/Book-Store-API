@@ -42,6 +42,11 @@ namespace BookStore.API
                 //c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookStore.API", Version = "v1" });
             });
 
+            services.AddCors(option=> {
+                option.AddDefaultPolicy(builder=> {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
         }
 
@@ -58,6 +63,7 @@ namespace BookStore.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthorization();
 
